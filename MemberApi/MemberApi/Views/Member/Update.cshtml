@@ -1,0 +1,81 @@
+﻿
+<h2 class="text-primary text-center">會員資料修改</h2>
+
+
+@foreach (var item in Model)
+{
+    <form action="Update" method="post" onsubmit="return Chk();">
+        <div class="row mb-3">
+            <div class="col">
+                <span>姓名:</span>
+                <input type="text" name="NAME" class="form-control" required="required" value="@item.NAME" />
+            </div>
+            <div class="col">
+                <span>性別</span>
+                <select name="GENDER" class="form-control" >
+                    <option value="@item.GENDER">@item.GENDER</option>
+                    @if (@item.GENDER=="男")
+                    {
+                        <option value="女">女</option>
+                    }
+                    else
+                    {
+                        <option value="男">男</option>
+                    }                  
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <span>生日:</span>
+                <input type="text" readonly="readonly" name="BIRTHDAY" id="BIRTHDAY" class="form-control" required="required" value="@item.BIRTHDAY"/>
+            </div>
+            <div class="col">
+                <span>信箱</span>
+                <input type="email" name="EMAIL" class="form-control" required="required" value="@item.EMAIL" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <span>電話</span>&nbsp;<span id="EROPHONE" class="text-danger"></span>
+                <input type="tel" name="PHONE" id="PHONE" class="form-control" required="required" value="@item.PHONE"/>
+
+            </div>
+            <div class="col">
+                <span>地址</span>
+                <input type="text" name="ADDRESS" class="form-control" required="required" value="@item.ADDRESS" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="text-center">
+                    <input type="submit" class="btn btn-success" />
+                    <a href="@Url.Action("Index","Member")" class="btn btn-danger">取消</a>
+                </div>
+            </div>
+        </div>
+        <input hidden="hidden" name="ID" value="@item.ID" readonly="readonly"/>
+    </form>
+}
+
+<script>
+    $(function () {
+        $('#BIRTHDAY').datepicker({
+            maxDate: new Date(),
+            changeYear: true,
+            yearRange: "1900:@DateTime.Now.Year",
+            changeMonth: true});
+    })
+
+    function Chk() {
+        var phone = $('#PHONE').val();
+        //檢查是否都為數字
+        if (isNaN(phone)) {
+            $('#EROPHONE').text("此欄位必須為數字")
+            return false
+        }
+        else {
+            $('#EROPHONE').text("");
+        }
+    }
+</script>

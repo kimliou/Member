@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1 class="text-center text-primary">首頁</h1>
+
+<div class="row mb-3">
+    <div class="col-9">
+        
+    </div>
+    <div class="col">
+        <div class="input-group">
+            <input type="text" id="name" class="form-control" />
+            <button class="btn btn-success" onclick="Search()">搜尋</button>
+        </div>
+    </div>
+
+</div>
+
+<table id="td"></table>
+<script>
+    var name;
+    var dt;
+    $(function () {
+        name = $('#name').val();
+        dataTable();
+    })
+
+
+    function Search() {
+        name = $('#name').val();
+        console.log(name);
+        dt.ajax.reload();
+    }
+
+    //轉成中文
+    function dtLanguageSetting() {
+        return {
+            "language": {
+                "sProcessing": "處理中...",
+                "sLengthMenu": "顯示 _MENU_ 項結果",
+                "sZeroRecords": "沒有匹配結果",
+                "sInfo": "顯示第 _START_ 至 _END_ 項結果，共 _TOTAL_ 項",
+                "sInfoEmpty": "顯示第 0 至 0 項結果，共 0 項",
+                "sInfoFiltered": "(由 _MAX_ 項結果過濾)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "查無資料",
+                "sLoadingRecords": "載入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首頁",
+                    "sPrevious": "上頁",
+                    "sNext": "下頁",
+                    "sLast": "末頁"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            }
+        }
+    }
+
+
+       function dataTable() {
+        var dtSetting = dtLanguageSetting();
+          dtSetting.ajax = {
+            type: "POST",
+            data: function (e) {
+                return {
+                   name
+                };
+            },
+            url: '@Url.Action("GetDataTable", "Member")'
+            };
+
+          dtSetting.columns = [
+              { data: "NAME", title: "姓名" },
+              { data: "GENDER", title: "性別" },
+              { data: "BIRTHDAY", title: "生日" },
+              { data: "EMAIL", title: "信箱" },
+              { data: "PHONE", title: "手機" },
+              { data: "ADDRESS", title: "住址" },
+              {
+                title: "管理" ,render: function (data, type, row, meta) {
+
+                    var result = '<a class="btn btn-outline-danger" href=' + '@Url.Action("Update", "Member")' + '?ID=' + row.ID + '>編輯</a>'
+                    result += '<a class="btn btn-outline-success" href=' + '@Url.Action("Delete", "Member")' +'?ID=' + row.ID + '>刪除</a>';  
+                    return result 
+                             
+                    }
+                }
+           ]
+           dt = $('#td').DataTable(dtSetting);
+    }
+</script>

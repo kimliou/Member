@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/datepicker-zh-TW.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/metisMenu.js"></script>
+    <script src="~/Scripts/sb-admin-2.js"></script>
+
+</head>
+
+<body>
+    <div class="d-md-flex">
+        <div class="sidebar" role="navigation">
+            <div class="sidebar-nav collapse navbar-collapse show">
+                <ul class="sidebar-nav collapse navbar-collapse show">
+
+                    <li class="list-group-item">
+                        <a href="@Url.Action("Index","Member")">首頁</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="@Url.Action("Create","Member")">新增</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container body-content" id="page-wrapper">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
+            </footer>
+        </div>
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
